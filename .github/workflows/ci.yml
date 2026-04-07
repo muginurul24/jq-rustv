@@ -101,8 +101,29 @@ jobs:
       - name: Run database migrations
         run: cargo run -p justqiu-api --bin migrate
 
-      - name: Run Rust tests
-        run: cargo test --workspace -- --nocapture --test-threads=1
+      - name: Test justqiu-auth
+        run: cargo test -p justqiu-auth -- --nocapture --test-threads=1
+
+      - name: Test justqiu-redis
+        run: cargo test -p justqiu-redis -- --nocapture --test-threads=1
+
+      - name: Test justqiu-callback
+        run: cargo test -p justqiu-callback -- --nocapture --test-threads=1
+
+      - name: Test justqiu-qris
+        run: cargo test -p justqiu-qris -- --nocapture --test-threads=1
+
+      - name: Test justqiu-nexusggr
+        run: cargo test -p justqiu-nexusggr -- --nocapture --test-threads=1
+
+      - name: Test justqiu-api
+        run: cargo test -p justqiu-api -- --nocapture --test-threads=1
+
+      - name: Test justqiu-worker
+        run: cargo test -p justqiu-worker -- --nocapture --test-threads=1
+
+      - name: Test support crates
+        run: cargo test -p justqiu-contracts -p justqiu-database -p justqiu-domain -p justqiu-errors -p justqiu-observability -- --nocapture --test-threads=1
 
       - name: Build web
         run: npm --prefix apps/web run build
