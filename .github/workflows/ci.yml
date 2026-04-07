@@ -39,6 +39,7 @@ jobs:
       REDIS_URL: redis://127.0.0.1:6379/0
       JWT_SECRET: ci-test-secret
       APP_ENV: test
+      RUST_BACKTRACE: 1
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -58,6 +59,44 @@ jobs:
 
       - name: Install web dependencies
         run: npm --prefix apps/web ci
+
+      - name: Probe Postgres and Redis connectivity
+        run: |
+          python - <<'PY'
+          import os
+          import socket
+          import time
+          import urllib.parse
+
+          def endpoint(url: str, default_port: int) -> tuple[str, int]:
+              parsed = urllib.parse.urlparse(url)
+              return parsed.hostname or "127.0.0.1", parsed.port or default_port
+
+          def wait_for(host: str, port: int, label: str) -> None:
+              last_error = None
+              for attempt in range(1, 31):
+                  try:
+                      with socket.create_connection((host, port), timeout=2):
+                          print(f"{label}: reachable at {host}:{port} on attempt {attempt}")
+                          return
+                  except OSError as exc:
+                      last_error = exc
+                      print(
+                          f"{label}: waiting for {host}:{port} "
+                          f"(attempt {attempt}/30): {exc}"
+                      )
+                      time.sleep(1)
+
+              raise SystemExit(
+                  f"{label}: unreachable at {host}:{port} after 30 attempts: {last_error}"
+              )
+
+          db_host, db_port = endpoint(os.environ["DATABASE_URL"], 5432)
+          redis_host, redis_port = endpoint(os.environ["REDIS_URL"], 6379)
+
+          wait_for(db_host, db_port, "postgres")
+          wait_for(redis_host, redis_port, "redis")
+          PY
 
       - name: Run database migrations
         run: cargo run -p justqiu-api --bin migrate
