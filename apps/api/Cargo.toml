@@ -1,0 +1,31 @@
+[package]
+name = "justqiu-api"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+justqiu-domain = { path = "../../crates/domain" }
+justqiu-database = { path = "../../crates/database" }
+justqiu-auth = { path = "../../crates/auth" }
+justqiu-redis = { path = "../../crates/redis_store" }
+justqiu-qris = { path = "../../crates/qris_client" }
+justqiu-nexusggr = { path = "../../crates/nexusggr_client" }
+justqiu-contracts = { path = "../../crates/contracts" }
+justqiu-errors = { path = "../../crates/errors" }
+justqiu-observability = { path = "../../crates/observability" }
+
+axum.workspace = true
+axum-extra.workspace = true
+tokio.workspace = true
+tower.workspace = true
+tower-http.workspace = true
+sqlx.workspace = true
+redis.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+chrono.workspace = true
+uuid.workspace = true
+dotenvy.workspace = true
+anyhow.workspace = true
+ulid.workspace = true

@@ -1,0 +1,62 @@
+[workspace]
+resolver = "2"
+members = [
+  "apps/api",
+  "apps/worker",
+  "crates/domain",
+  "crates/database",
+  "crates/auth",
+  "crates/redis_store",
+  "crates/nexusggr_client",
+  "crates/qris_client",
+  "crates/callback_client",
+  "crates/contracts",
+  "crates/errors",
+  "crates/observability",
+]
+
+[workspace.dependencies]
+# Web framework
+axum = "0.8"
+axum-extra = { version = "0.10", features = ["cookie", "typed-header"] }
+tokio = { version = "1", features = ["full"] }
+tower = "0.5"
+tower-http = { version = "0.6", features = ["cors", "trace", "request-id", "set-header"] }
+
+# Database
+sqlx = { version = "0.8", features = ["runtime-tokio", "tls-rustls", "postgres", "chrono", "uuid", "migrate"] }
+
+# Redis
+redis = { version = "0.27", features = ["tokio-comp", "connection-manager"] }
+
+# HTTP client
+reqwest = { version = "0.12", features = ["json", "rustls-tls"], default-features = false }
+
+# Serialization
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# Auth
+jsonwebtoken = "9"
+argon2 = "0.5"
+bcrypt = "0.17"
+sha2 = "0.10"
+hmac = "0.12"
+hex = "0.4"
+rand = "0.8"
+
+# Observability
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "json"] }
+
+# Types
+chrono = { version = "0.4", features = ["serde"] }
+uuid = { version = "1", features = ["v4", "serde"] }
+ulid = "1"
+
+# Error handling
+thiserror = "2"
+anyhow = "1"
+
+# Config
+dotenvy = "0.15"

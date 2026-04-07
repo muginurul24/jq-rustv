@@ -1,0 +1,21 @@
+[package]
+name = "justqiu-worker"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+justqiu-domain = { path = "../../crates/domain" }
+justqiu-database = { path = "../../crates/database" }
+justqiu-redis = { path = "../../crates/redis_store" }
+justqiu-callback = { path = "../../crates/callback_client" }
+justqiu-errors = { path = "../../crates/errors" }
+justqiu-observability = { path = "../../crates/observability" }
+
+tokio.workspace = true
+sqlx.workspace = true
+redis.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+tracing.workspace = true
+chrono.workspace = true
+dotenvy.workspace = true
