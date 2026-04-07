@@ -56,14 +56,11 @@ jobs:
           cache: npm
           cache-dependency-path: apps/web/package-lock.json
 
-      - name: Install sqlx-cli
-        run: cargo install sqlx-cli --no-default-features --features rustls,postgres
-
       - name: Install web dependencies
         run: npm --prefix apps/web ci
 
       - name: Run database migrations
-        run: sqlx migrate run
+        run: cargo run -p justqiu-api --bin migrate
 
       - name: Verify workspace
         run: ./scripts/verify-all.sh
