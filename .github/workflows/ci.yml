@@ -62,5 +62,8 @@ jobs:
       - name: Run database migrations
         run: cargo run -p justqiu-api --bin migrate
 
-      - name: Verify workspace
-        run: ./scripts/verify-all.sh
+      - name: Run Rust tests
+        run: cargo test --workspace -- --nocapture
+
+      - name: Build web
+        run: npm --prefix apps/web run build
