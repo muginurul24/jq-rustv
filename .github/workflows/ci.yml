@@ -63,7 +63,7 @@ jobs:
         run: cargo run -p justqiu-api --bin migrate
 
       - name: Run Rust tests
-        run: cargo test --workspace -- --nocapture
+        run: cargo test --workspace -- --nocapture --test-threads=1
 
       - name: Build web
         run: npm --prefix apps/web run build

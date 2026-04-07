@@ -17,5 +17,5 @@ fi
 export DATABASE_URL
 export REDIS_URL
 
-cargo test --workspace -- --nocapture
+cargo test --workspace -- --nocapture --test-threads=1
 npm --prefix apps/web run build
