@@ -1,5 +1,7 @@
 # jq-rustv
 
+[![CI](https://github.com/muginurul24/jq-rustv/actions/workflows/ci.yml/badge.svg)](https://github.com/muginurul24/jq-rustv/actions/workflows/ci.yml)
+
 Rewrite of `justqiuv2` into a Rust + Vue stack.
 
 ## Stack
