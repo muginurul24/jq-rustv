@@ -2574,6 +2574,7 @@ mod tests {
     };
     use redis::AsyncCommands;
     use serde_json::Value;
+    use sha2::{Digest, Sha256};
     use sqlx::postgres::{PgPool, PgPoolOptions};
     use tower::ServiceExt;
     use uuid::Uuid;
@@ -2585,6 +2586,12 @@ mod tests {
 
     fn authorization_header(personal_access_token_id: i64, plain_token: &str) -> String {
         format!("Bearer {personal_access_token_id}|{plain_token}")
+    }
+
+    fn hash_sanctum_token(plaintext: &str) -> String {
+        let mut hasher = Sha256::new();
+        hasher.update(plaintext.as_bytes());
+        hex::encode(hasher.finalize())
     }
 
     async fn test_state(redis_url: &str, database_url: &str) -> AppState {
@@ -2617,11 +2624,7 @@ mod tests {
         let username = format!("test_api_rl_{suffix}");
         let email = format!("{username}@localhost");
         let plain_token = format!("plain_{suffix}");
-        let token_hash: String = sqlx::query_scalar("SELECT encode(digest($1, 'sha256'), 'hex')")
-            .bind(&plain_token)
-            .fetch_one(db)
-            .await
-            .expect("token hash");
+        let token_hash = hash_sanctum_token(&plain_token);
 
         let user_id: i64 = sqlx::query_scalar(
             r#"
