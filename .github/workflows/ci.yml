@@ -117,19 +117,19 @@ jobs:
         run: cargo test -p justqiu-nexusggr -- --nocapture --test-threads=1
 
       - name: Test justqiu-api auth
-        run: 'cargo test -p justqiu-api http::dashboard::auth::tests:: -- --nocapture --test-threads=1'
+        run: 'cargo test -p justqiu-api --bin justqiu-api http::dashboard::auth::tests:: -- --nocapture --test-threads=1'
 
       - name: Test justqiu-api bridge
-        run: 'cargo test -p justqiu-api http::bridge::tests:: -- --nocapture --test-threads=1'
+        run: 'cargo test -p justqiu-api --bin justqiu-api http::bridge::tests:: -- --nocapture --test-threads=1'
 
       - name: Test justqiu-api webhook qris
-        run: 'cargo test -p justqiu-api http::webhook::qris::tests:: -- --nocapture --test-threads=1'
+        run: 'cargo test -p justqiu-api --bin justqiu-api http::webhook::qris::tests:: -- --nocapture --test-threads=1'
 
       - name: Test justqiu-api webhook disbursement
-        run: 'cargo test -p justqiu-api http::webhook::disbursement::tests:: -- --nocapture --test-threads=1'
+        run: 'cargo test -p justqiu-api --bin justqiu-api http::webhook::disbursement::tests:: -- --nocapture --test-threads=1'
 
       - name: Test justqiu-api middleware
-        run: 'cargo test -p justqiu-api middleware:: -- --nocapture --test-threads=1'
+        run: 'cargo test -p justqiu-api --bin justqiu-api middleware:: -- --nocapture --test-threads=1'
 
       - name: Test justqiu-worker
         run: cargo test -p justqiu-worker -- --nocapture --test-threads=1
